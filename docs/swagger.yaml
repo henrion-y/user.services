@@ -1,0 +1,303 @@
+basePath: /api/v1/users
+definitions:
+  controllers.ResponseData:
+    properties:
+      code:
+        type: integer
+      data: {}
+    type: object
+  dtos.LoginByOauthUserCodeDto:
+    properties:
+      code:
+        description: 第三方登录唯一标识
+        type: string
+    required:
+    - code
+    type: object
+  dtos.LoginByPassWordDto:
+    properties:
+      password:
+        description: 手机验证码
+        type: string
+      phone:
+        description: 手机号码
+        type: string
+      platform:
+        description: 登录渠道，1:iOS,2:Android,3:Web
+        type: integer
+    required:
+    - password
+    - phone
+    - platform
+    type: object
+  dtos.LoginByPhoneCodeDto:
+    properties:
+      code:
+        description: 手机验证码
+        type: string
+      oauth_id:
+        description: 第三方登录信息id
+        type: integer
+      phone:
+        description: 手机号码
+        type: string
+      platform:
+        description: 登录渠道，1:iOS,2:Android,3:Web
+        type: integer
+    required:
+    - code
+    - phone
+    - platform
+    type: object
+  dtos.SendCodeDto:
+    properties:
+      phone:
+        description: 手机号码
+        type: string
+    required:
+    - phone
+    type: object
+  dtos.SetPasswordDto:
+    properties:
+      new_password:
+        description: 新密码
+        type: string
+      password:
+        description: 原密码
+        type: string
+      user_id:
+        description: 用户id， 用来跟其他表做关联
+        type: integer
+    required:
+    - new_password
+    type: object
+  dtos.UserInfoDto:
+    properties:
+      head_portrait:
+        description: 像头
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      sex:
+        description: 性别(0保密，1男，2女)
+        type: integer
+      user_id:
+        description: 用户id， 用来跟其他表做关联
+        type: integer
+      user_name:
+        description: 昵称
+        type: string
+      user_profile:
+        description: 简介
+        type: string
+    type: object
+  dtos.UserLoginDto:
+    properties:
+      is_new:
+        type: boolean
+      jwt_token:
+        type: string
+      user_info:
+        $ref: '#/definitions/dtos.UserInfoDto'
+    type: object
+host: 127.0.0.1:8060
+info:
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+  description: user.services API接口文档
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: user.services
+  version: "2.0"
+paths:
+  /sms/send_code:
+    post:
+      description: 发送短信验证码
+      operationId: SendCode
+      parameters:
+      - description: 发短信
+        in: body
+        name: SendCodeDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.SendCodeDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ResponseData'
+      summary: 发送短信验证码
+      tags:
+      - 短信
+  /user/edit_user_info:
+    post:
+      description: 编辑用户信息
+      operationId: EditUserInfo
+      parameters:
+      - description: 编辑用户信息
+        in: body
+        name: UserInfoDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserInfoDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ResponseData'
+      summary: 编辑用户信息
+      tags:
+      - 用户
+  /user/get_user_info_by_token:
+    get:
+      description: 根据token获取用户信息
+      operationId: GetUserInfoByToken
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.UserInfoDto'
+              type: object
+      summary: 根据token获取用户信息
+      tags:
+      - 用户
+  /user/get_user_info_by_user_id:
+    get:
+      description: 根据用户id获取用户信息
+      operationId: GetUserInfoByUserId
+      parameters:
+      - description: 用户id， 用来跟其他表做关联
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.UserInfoDto'
+              type: object
+      summary: 根据用户id获取用户信息
+      tags:
+      - 用户
+  /user/login_by_oauth_code:
+    post:
+      description: 第三方code登录
+      operationId: LoginByOauthUserCode
+      parameters:
+      - description: 第三方code登录
+        in: body
+        name: LoginByOauthUserCodeDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginByOauthUserCodeDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.UserLoginDto'
+              type: object
+      summary: 第三方code登录
+      tags:
+      - 用户
+  /user/login_by_pass_word:
+    post:
+      description: 账号密码登录
+      operationId: LoginByPPassWord
+      parameters:
+      - description: 账号密码登录
+        in: body
+        name: LoginByPassWordDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginByPassWordDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.UserLoginDto'
+              type: object
+      summary: 账号密码登录
+      tags:
+      - 用户
+  /user/login_by_phone_code:
+    post:
+      description: 手机验证码登录
+      operationId: LoginByPhoneCode
+      parameters:
+      - description: 手机验证码登录
+        in: body
+        name: LoginByPhoneCodeDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginByPhoneCodeDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.UserLoginDto'
+              type: object
+      summary: 手机验证码登录
+      tags:
+      - 用户
+  /user/set_password:
+    post:
+      description: 重置密码
+      operationId: SetPassword
+      parameters:
+      - description: 重置密码
+        in: body
+        name: SetPasswordDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.SetPasswordDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ResponseData'
+      summary: 重置密码
+      tags:
+      - 用户
+schemes:
+- http
+swagger: "2.0"

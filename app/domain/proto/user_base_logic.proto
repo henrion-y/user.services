@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package user_base_logic;
+
+option go_package = "user.services;userServices";
+
+enum RET_CODE{
+  SUCCESS = 0;
+  ERROR = 1;
+  INVALID_PARAM = 2;
+  UID_TOO_MANY = 3;
+  REDIS_ERR = 4;
+}
+
+service UserBaseLogic {
+  rpc GetUserCache(GetUserCacheRequest)returns(GetUserCacheResponse){}
+  rpc UpdateUserInfo(UpdateUserRequest)returns(UserInfo){}
+}
+
+message GetUserCacheRequest{
+  repeated uint64 user_id = 1;
+}
+
+message GetUserCacheResponse{
+  RET_CODE code = 1;
+  string message = 2;
+  repeated UserInfo data = 3;
+}
+
+message UserInfo{
+  uint64 id = 1;
+  string unique_id = 2;
+  string phone = 3;
+  string nickname = 4;
+  string head_portrait = 5;
+  int32 sex = 6;
+  int32 status = 7;
+  int32 user_type = 8;
+}
+
+message UpdateUserRequest{
+  uint64 user_id = 1;
+  string pass_word = 2;
+  string phone = 3;
+  string nickname = 4;
+  string head_portrait = 5;
+  int32 sex = 6;
+
+}

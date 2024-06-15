@@ -1,0 +1,472 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "user.services API接口文档",
+        "title": "user.services",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "2.0"
+    },
+    "host": "127.0.0.1:8060",
+    "basePath": "/api/v1/users",
+    "paths": {
+        "/sms/send_code": {
+            "post": {
+                "description": "发送短信验证码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "短信"
+                ],
+                "summary": "发送短信验证码",
+                "operationId": "SendCode",
+                "parameters": [
+                    {
+                        "description": "发短信",
+                        "name": "SendCodeDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.SendCodeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/edit_user_info": {
+            "post": {
+                "description": "编辑用户信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "编辑用户信息",
+                "operationId": "EditUserInfo",
+                "parameters": [
+                    {
+                        "description": "编辑用户信息",
+                        "name": "UserInfoDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UserInfoDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/get_user_info_by_token": {
+            "get": {
+                "description": "根据token获取用户信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "根据token获取用户信息",
+                "operationId": "GetUserInfoByToken",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/controllers.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.UserInfoDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/get_user_info_by_user_id": {
+            "get": {
+                "description": "根据用户id获取用户信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "根据用户id获取用户信息",
+                "operationId": "GetUserInfoByUserId",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户id， 用来跟其他表做关联",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/controllers.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.UserInfoDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login_by_oauth_code": {
+            "post": {
+                "description": "第三方code登录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "第三方code登录",
+                "operationId": "LoginByOauthUserCode",
+                "parameters": [
+                    {
+                        "description": "第三方code登录",
+                        "name": "LoginByOauthUserCodeDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.LoginByOauthUserCodeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/controllers.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.UserLoginDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login_by_pass_word": {
+            "post": {
+                "description": "账号密码登录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "账号密码登录",
+                "operationId": "LoginByPPassWord",
+                "parameters": [
+                    {
+                        "description": "账号密码登录",
+                        "name": "LoginByPassWordDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.LoginByPassWordDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/controllers.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.UserLoginDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login_by_phone_code": {
+            "post": {
+                "description": "手机验证码登录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "手机验证码登录",
+                "operationId": "LoginByPhoneCode",
+                "parameters": [
+                    {
+                        "description": "手机验证码登录",
+                        "name": "LoginByPhoneCodeDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.LoginByPhoneCodeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/controllers.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.UserLoginDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/set_password": {
+            "post": {
+                "description": "重置密码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "重置密码",
+                "operationId": "SetPassword",
+                "parameters": [
+                    {
+                        "description": "重置密码",
+                        "name": "SetPasswordDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.SetPasswordDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ResponseData"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controllers.ResponseData": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {}
+            }
+        },
+        "dtos.LoginByOauthUserCodeDto": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "description": "第三方登录唯一标识",
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.LoginByPassWordDto": {
+            "type": "object",
+            "required": [
+                "password",
+                "phone",
+                "platform"
+            ],
+            "properties": {
+                "password": {
+                    "description": "手机验证码",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "手机号码",
+                    "type": "string"
+                },
+                "platform": {
+                    "description": "登录渠道，1:iOS,2:Android,3:Web",
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.LoginByPhoneCodeDto": {
+            "type": "object",
+            "required": [
+                "code",
+                "phone",
+                "platform"
+            ],
+            "properties": {
+                "code": {
+                    "description": "手机验证码",
+                    "type": "string"
+                },
+                "oauth_id": {
+                    "description": "第三方登录信息id",
+                    "type": "integer"
+                },
+                "phone": {
+                    "description": "手机号码",
+                    "type": "string"
+                },
+                "platform": {
+                    "description": "登录渠道，1:iOS,2:Android,3:Web",
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.SendCodeDto": {
+            "type": "object",
+            "required": [
+                "phone"
+            ],
+            "properties": {
+                "phone": {
+                    "description": "手机号码",
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.SetPasswordDto": {
+            "type": "object",
+            "required": [
+                "new_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "description": "新密码",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "原密码",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id， 用来跟其他表做关联",
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.UserInfoDto": {
+            "type": "object",
+            "properties": {
+                "head_portrait": {
+                    "description": "像头",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "性别(0保密，1男，2女)",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户id， 用来跟其他表做关联",
+                    "type": "integer"
+                },
+                "user_name": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "user_profile": {
+                    "description": "简介",
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.UserLoginDto": {
+            "type": "object",
+            "properties": {
+                "is_new": {
+                    "type": "boolean"
+                },
+                "jwt_token": {
+                    "type": "string"
+                },
+                "user_info": {
+                    "$ref": "#/definitions/dtos.UserInfoDto"
+                }
+            }
+        }
+    }
+}
